@@ -60,7 +60,7 @@ def initiate_pic_updation(app):
 
 def main():
     
-    from myconfig import Config
+    from config import Config
     
     token = Config.USER_TOKEN
     
