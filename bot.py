@@ -26,7 +26,7 @@ def fetch_new_pic():
     
     size = 360, 360
     
-    print(RGB))
+    print(RGB)
     
     img = Image.new('RGB', size, RGB)
     
