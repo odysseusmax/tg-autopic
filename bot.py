@@ -9,17 +9,15 @@ from PIL import Image, ImageFont, ImageDraw
 
 
 def fetch_qoute():
-    #api_url = "https://uselessfacts.jsph.pl/random.json"
+    api_url = "https://uselessfacts.jsph.pl/random.json"
     
-    api_url = "https://api.kanye.rest"
+    params = {'language': 'en'}
     
-    #params = {'language': 'en'}
-    
-    r = httpx.get(api_url)
+    r = httpx.get(api_url, params=params)
     
     responce_json = r.json()
         
-    return responce_json.get('quote')
+    return responce_json.get('text')
 
 
 def fetch_new_pic():
@@ -95,7 +93,7 @@ def main():
             
             print('one more done..')
             
-            time.sleep(65)
+            time.sleep(70)
         
     print('stopped...')
 
