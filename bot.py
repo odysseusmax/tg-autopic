@@ -22,15 +22,19 @@ def fetch_qoute():
 
 
 def fetch_new_pic():
-    RBG = (random.randint(1,255) for i in range (3))
+    RGB = (random.randint(1,255) for i in range (3))
     
-    img = Image.new(mode = 'RGB', size = (360, 360), color = RBG)
+    size = 360, 360
+    
+    print(RGB)
+    
+    img = Image.new(mode = 'RGB', size = size, color = RGB)
     
     image_path = Path('original_pic.jpg')
     
     img.save(image_path)
     
-    return image_path, RBG
+    return image_path, RGB
     
 
 
