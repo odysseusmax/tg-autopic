@@ -1,3 +1,4 @@
+import os
 import json
 import time
 from pathlib import Path
@@ -35,7 +36,7 @@ def fetch_new_pic():
 
 def combine(pic, qoute):
     
-    font = ImageFont.truetype("font.ttf", 10)
+    font = ImageFont.truetype("font.ttf", 15)
     
     out_file = Path("profile.jpg")
 
