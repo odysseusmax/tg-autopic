@@ -77,11 +77,11 @@ def main():
     
     from pyrogram import Client
     
-    from config import *
+    from config import Config
     
-    token = USER_TOKEN
+    token = Config.USER_TOKEN
     
-    app = Client(token,    api_id=API_ID,    api_hash=API_HASH)
+    app = Client(token,    api_id=Config.API_ID,    api_hash=Config.API_HASH)
     
     print('starting..')
     
