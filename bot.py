@@ -72,9 +72,9 @@ def initiate_pic_updation(app):
     
     qoute = fetch_qoute()
     
-    fill = (255-i for i in img_rbg)
+    fill = [255-i for i in img_rbg]
     
-    processed_pic = combine(pic, qoute, fill)
+    processed_pic = combine(pic, qoute, tuple(fill))
     
     app.set_profile_photo(processed_pic)
     
