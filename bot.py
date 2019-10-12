@@ -4,7 +4,6 @@ from pathlib import Path
 
 
 import httpx
-from PIL import Image, ImageFont, ImageDraw
 
 
 def fetch_new_pic():
@@ -16,7 +15,7 @@ def fetch_new_pic():
     
     with open(profile_photo, 'wb') as f:
         for chunk in r.stream():
-            f.chunk
+            f.write(chunk)
     
     return profile_photo
 
