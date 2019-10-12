@@ -1,7 +1,5 @@
 import os
-import json
 import time
-import random
 from pathlib import Path
 
 
@@ -9,74 +7,27 @@ import httpx
 from PIL import Image, ImageFont, ImageDraw
 
 
-def fetch_qoute():
-    api_url = "https://uselessfacts.jsph.pl/random.json"
-    
-    params = {'language': 'en'}
-    
-    r = httpx.get(api_url, params=params)
-    
-    responce_json = r.json()
-        
-    return responce_json.get('text')
-
-
 def fetch_new_pic():
-    RGB = [random.randint(1,255) for i in range (3)]
+    API_URL = "https://source.unsplash.com/random"
     
-    size = 1280, 1280
+    r = httpx.get(API_URL, stream=True)
     
-    img = Image.new('RGB', size, tuple(RGB))
+    profile_photo = Path('profile_photo.jpg')
     
-    image_path = Path('original_pic.jpg')
+    with open(profile_photo, 'wb') as f:
+        for chunk in r.stream():
+            f.chunk
     
-    img.save(image_path)
-    
-    return image_path, RGB
-    
-
-
-def combine(pic, qoute, fill):
-    
-    font = ImageFont.truetype("font.ttf", 40)
-    
-    out_file = Path("profile.jpg")
-
-    img = Image.open(pic)
-    
-    draw = ImageDraw.Draw(img)
-    
-    width, height = img.size
-    
-    x, y = draw.multiline_textsize(text = qoute, font=font)
-    
-    cordinates = 10, 10
-    
-    draw.multiline_text(xy = cordinates, text = qoute,
-                fill = fill, font=font,
-                align="center"
-        )        
-
-    img.save(out_file)
-    
-    pic.unlink()
-    
-    return out_file
+    return profile_photo
 
 
 def initiate_pic_updation(app):
     
-    pic, img_rbg = fetch_new_pic()
+    pic = fetch_new_pic()
     
-    qoute = fetch_qoute()
+    app.set_profile_photo(pic)
     
-    fill = [255-i for i in img_rbg]
-    
-    processed_pic = combine(pic, qoute, tuple(fill))
-    
-    app.set_profile_photo(processed_pic)
-    
-    os.remove(processed_pic)
+    pic.unlink()
 
 
 def main():
