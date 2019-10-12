@@ -68,7 +68,7 @@ def initiate_pic_updation(app):
     
     processed_pic = combine(pic, qoute)
     
-    app.set_profile_photo(new_pic)
+    app.set_profile_photo(processed_pic)
     
     processed_pic.unkink()
 
