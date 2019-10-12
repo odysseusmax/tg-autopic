@@ -24,7 +24,7 @@ def fetch_qoute():
 def fetch_new_pic():
     RGB = [random.randint(1,255) for i in range (3)]
     
-    size = 360, 360
+    size = 1280, 1280
     
     print(tuple(RGB))
     
