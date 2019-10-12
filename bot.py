@@ -22,9 +22,9 @@ def fetch_qoute():
 
 
 def fetch_new_pic():
-    RBG = [random.randint(1,255) for i in range (3)]
+    RBG = (random.randint(1,255) for i in range (3))
     
-    img = Image.new('RGB', (360, 360), RBG)
+    img = Image.new(mode = 'RGB', size = (360, 360), color = RBG)
     
     image_path = Path('original_pic.jpg')
     
@@ -68,7 +68,7 @@ def initiate_pic_updation(app):
     
     qoute = fetch_qoute()
     
-    fill = [255-i for i in img_rbg]
+    fill = (255-i for i in img_rbg)
     
     processed_pic = combine(pic, qoute, fill)
     
