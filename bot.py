@@ -30,7 +30,7 @@ def fetch_new_pic():
     
     img.save(image_path)
     
-    return image_path
+    return image_path, RBG
     
 
 
