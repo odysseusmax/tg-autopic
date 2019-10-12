@@ -26,9 +26,9 @@ def fetch_new_pic():
     
     size = 360, 360
     
-    print(RGB)
+    print(tuple(RGB))
     
-    img = Image.new('RGB', size, RGB)
+    img = Image.new('RGB', size, tuple(RGB))
     
     image_path = Path('original_pic.jpg')
     
