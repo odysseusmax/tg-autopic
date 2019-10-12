@@ -1,6 +1,7 @@
 import os
 import json
 import time
+import random
 from pathlib import Path
 
 
@@ -21,20 +22,19 @@ def fetch_qoute():
 
 
 def fetch_new_pic():
-    api_url = "https://source.unsplash.com/random"
+    RBG = [random.randint(1,255) for i in range (3)]
     
-    r = httpx.get(api_url, stream=True)
+    img = Image.new('RGB', (360, 360), RBG)
     
     image_path = Path('original_pic.jpg')
     
-    with open(image_path, 'wb') as f:
-        for chunk in r.stream():
-            f.write(chunk)
+    img.save(image_path)
     
     return image_path
+    
 
 
-def combine(pic, qoute):
+def combine(pic, qoute, fill):
     
     font = ImageFont.truetype("font.ttf", 30)
     
@@ -48,10 +48,10 @@ def combine(pic, qoute):
     
     x, y = draw.textsize(text = qoute, font=font)
     
-    cordinates = 0, height-(y+height/20)
+    cordinates = 0, 0
     
     draw.text(xy = cordinates, text = qoute,
-                fill = (247,238,238), font=font,
+                fill = fill, font=font,
                 align="center"
         )        
 
@@ -64,11 +64,13 @@ def combine(pic, qoute):
 
 def initiate_pic_updation(app):
     
-    pic = fetch_new_pic()
+    pic, img_rbg = fetch_new_pic()
     
     qoute = fetch_qoute()
     
-    processed_pic = combine(pic, qoute)
+    fill = [255-i for i in img_rbg]
+    
+    processed_pic = combine(pic, qoute, fill)
     
     app.set_profile_photo(processed_pic)
     
