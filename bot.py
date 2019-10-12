@@ -48,11 +48,11 @@ def combine(pic, qoute, fill):
     
     width, height = img.size
     
-    x, y = draw.textsize(text = qoute, font=font)
+    x, y = draw.multiline_textsize(text = qoute, font=font)
     
     cordinates = 10, 10
     
-    draw.text(xy = cordinates, text = qoute,
+    draw.multiline_text(xy = cordinates, text = qoute,
                 fill = fill, font=font,
                 align="center"
         )        
