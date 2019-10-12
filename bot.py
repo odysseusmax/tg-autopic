@@ -35,7 +35,7 @@ def fetch_new_pic():
 
 def combine(pic, qoute):
     
-    font = ImageFont.truetype("font.ttf", 30)
+    font = ImageFont.truetype("font.ttf", 10)
     
     out_file = Path("profile.jpg")
 
@@ -71,7 +71,7 @@ def initiate_pic_updation(app):
     
     app.set_profile_photo(processed_pic)
     
-    processed_pic.unkink()
+    os.remove(processed_pic)
 
 
 def main():
