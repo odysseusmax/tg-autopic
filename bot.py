@@ -4,6 +4,7 @@ from pathlib import Path
 
 
 import httpx
+from PIL import Image, ImageFont, ImageDraw
 
 
 def fetch_qoute():
