@@ -9,19 +9,21 @@ from PIL import Image, ImageFont, ImageDraw
 
 
 def fetch_qoute():
-    api_url = "https://uselessfacts.jsph.pl/random.json"
+    #api_url = "https://uselessfacts.jsph.pl/random.json"
     
-    params = {'language': 'en'}
+    api_url = "https://api.kanye.rest"
     
-    r = httpx.get(api_url, params=params)
+    #params = {'language': 'en'}
+    
+    r = httpx.get(api_url)
     
     responce_json = r.json()
         
-    return responce_json.get('text')
+    return responce_json.get('quote')
 
 
 def fetch_new_pic():
-    api_url = "https://source.unsplash.com/random/300x300"
+    api_url = "https://source.unsplash.com/random/360x360"
     
     r = httpx.get(api_url, stream=True)
     
@@ -36,7 +38,7 @@ def fetch_new_pic():
 
 def combine(pic, qoute):
     
-    font = ImageFont.truetype("font.ttf", 15)
+    font = ImageFont.truetype("font.ttf", 10)
     
     out_file = Path("profile.jpg")
 
