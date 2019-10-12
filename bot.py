@@ -48,7 +48,7 @@ def combine(pic, qoute):
     
     x, y = draw.textsize(text = qoute, font=font)
     
-    cordinates = width-(x+width/20), height-(y+height/20)
+    cordinates = 0, height-(y+height/20)
     
     draw.text(xy = cordinates, text = qoute,
                 fill = (247,238,238), font=font,
