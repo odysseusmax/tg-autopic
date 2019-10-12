@@ -9,7 +9,7 @@ from pyrogram import Client, api
 
 
 def fetch_new_pic():
-    API_URL = "https://source.unsplash.com/random"
+    API_URL = "https://picsum.photos/1280"
     
     r = httpx.get(API_URL, stream=True)
     
