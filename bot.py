@@ -23,7 +23,7 @@ def fetch_qoute():
 
 
 def fetch_new_pic():
-    api_url = "https://source.unsplash.com/random/360x360"
+    api_url = "https://source.unsplash.com/random"
     
     r = httpx.get(api_url, stream=True)
     
@@ -38,7 +38,7 @@ def fetch_new_pic():
 
 def combine(pic, qoute):
     
-    font = ImageFont.truetype("font.ttf", 10)
+    font = ImageFont.truetype("font.ttf", 30)
     
     out_file = Path("profile.jpg")
 
