@@ -26,8 +26,6 @@ def fetch_new_pic():
     
     size = 1280, 1280
     
-    print(tuple(RGB))
-    
     img = Image.new('RGB', size, tuple(RGB))
     
     image_path = Path('original_pic.jpg')
@@ -40,7 +38,7 @@ def fetch_new_pic():
 
 def combine(pic, qoute, fill):
     
-    font = ImageFont.truetype("font.ttf", 30)
+    font = ImageFont.truetype("font.ttf", 40)
     
     out_file = Path("profile.jpg")
 
@@ -52,7 +50,7 @@ def combine(pic, qoute, fill):
     
     x, y = draw.textsize(text = qoute, font=font)
     
-    cordinates = 0, 0
+    cordinates = 10, 10
     
     draw.text(xy = cordinates, text = qoute,
                 fill = fill, font=font,
