@@ -1,5 +1,0 @@
-USER_TOKEN = ""
-
-API_ID = 12345
-
-API_HASH = ""
