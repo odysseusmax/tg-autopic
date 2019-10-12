@@ -1,3 +1,5 @@
+import os
+
 class Config:
     USER_TOKEN = os.environ.get("USER_TOKEN", None)
 
