@@ -89,7 +89,7 @@ def initiate_pic_updation(app):
     
     app.set_profile_photo(pic)
     
-    pic = ascii_pic(pic)
+    pic = ascii_pic(pic) # https://github.com/RameshAditya/asciify
     
     time.sleep(10)
     
