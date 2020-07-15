@@ -63,7 +63,7 @@ def do(image, new_width=1280):
 
 def ascii_pic(pic):
     ASCII_CHARS = ['@', '#', 'S', '%', '?', '*', '+', ';', ':', ',', '.']
-    image = Image.open(path)
+    image = Image.open(pic)
     target_file = Path('ascii_profile_photo.jpg')
     old_width, old_height, a = get_w_h_a(image)
     if old_width > 720:
