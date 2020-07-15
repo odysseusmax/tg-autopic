@@ -42,6 +42,7 @@ def grayscalify(image):
 
 
 def modify(image, buckets=25):
+    ASCII_CHARS = ['@', '#', 'S', '%', '?', '*', '+', ';', ':', ',', '.']
     initial_pixels = list(image.getdata())
     new_pixels = [ASCII_CHARS[pixel_value//buckets] for pixel_value in initial_pixels]
     return ''.join(new_pixels)
@@ -62,7 +63,6 @@ def do(image, new_width=1280):
 
 
 def ascii_pic(pic):
-    ASCII_CHARS = ['@', '#', 'S', '%', '?', '*', '+', ';', ':', ',', '.']
     image = Image.open(pic)
     target_file = Path('ascii_profile_photo.jpg')
     old_width, old_height, a = get_w_h_a(image)
