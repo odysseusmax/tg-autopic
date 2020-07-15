@@ -1,7 +1,7 @@
 import os
 import time
-import datetime
 from pathlib import Path
+from PIL import Image, ImageDraw
 
 
 import httpx
@@ -9,7 +9,7 @@ from pyrogram import Client, api
 
 
 def fetch_new_pic():
-    API_URL = "https://picsum.photos/1280"
+    API_URL = "https://picsum.photos/720"
     
     r = httpx.get(API_URL, stream=True)
     
@@ -22,37 +22,78 @@ def fetch_new_pic():
     return profile_photo
 
 
-def fetch_fact():
+def get_w_h_a(image):
+    w, h = image.size
+    a = float(h)/float(w)
+    return w, h, a
+
+
+def resize(image, new_width, new_height=None):
+    old_width, old_height, aspect_ratio = get_w_h_a(image)
+    if new_height is None:
+        new_height = int(aspect_ratio * new_width)
+    new_dim = (new_width, new_height)
+    new_image = image.resize(new_dim)
+    return new_image
+
+
+def grayscalify(image):
+    return image.convert('L')
+
+
+def modify(image, buckets=25):
+    initial_pixels = list(image.getdata())
+    new_pixels = [ASCII_CHARS[pixel_value//buckets] for pixel_value in initial_pixels]
+    return ''.join(new_pixels)
+
+
+def do(image, new_width=1280):
+    image = resize(image, new_width)
     
-    API_URL = "https://geek-jokes.sameerkumar.website/api"
+    image = grayscalify(image)
     
-    r = httpx.get(API_URL)
+    width, _ = image.size
+
+    pixels = modify(image)
+
+    new_image = [pixels[index:index+width] for index in range(0, len(pixels), width)]
     
-    data = r.text.replace('"', '')
-        
-    return data
+    return '\n'.join(new_image)
+
+
+def ascii_pic(pic):
+    ASCII_CHARS = ['@', '#', 'S', '%', '?', '*', '+', ';', ':', ',', '.']
+    image = Image.open(path)
+    target_file = Path('ascii_profile_photo.jpg')
+    old_width, old_height, a = get_w_h_a(image)
+    if old_width > 720:
+        old_width = 720
+        old_height = int(a * old_width)
+    txt = do(image)
+
+    d = ImageDraw.Draw(image)
+
+    dim = d.multiline_textsize(txt)
+    img = Image.new('RGB', dim, 'white')
+    d = ImageDraw.Draw(img)
+    d.multiline_text((0,0), txt, fill='black')
+    img = resize(img, old_width, old_height)
+    img.save(target_file, 'JPEG')
+    pic.unlink()
+    return target_file
 
 
 def initiate_pic_updation(app):
     
     pic = fetch_new_pic()
     
-    bio = fetch_fact()
-    
     app.set_profile_photo(pic)
     
-    tim = datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(minutes=30, hours=5)))
+    pic = ascii_pic(pic)
     
-    update_data = {}
-                
-    update_data.update({'first_name':f"{tim.hour}:{tim.minute} | {tim.day}-{tim.month}-{tim.year}"})
-        
-    update_data.update({'last_name': "odysseusmax"})
+    time.sleep(10)
     
-    if len(bio) <= 70:
-        update_data.update({'about': bio})
-        
-    app.send(api.functions.account.UpdateProfile(**update_data))
+    app.set_profile_photo(pic)
     
     pic.unlink()
 
