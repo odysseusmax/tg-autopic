@@ -1,5 +1,6 @@
 import os
 import time
+import random
 import traceback
 from pathlib import Path
 from PIL import Image, ImageDraw
@@ -20,7 +21,7 @@ def remap(OldValue):
 
 
 def fetch_new_pic():
-    API_URL = "https://picsum.photos/720"
+    API_URL = 'https://avatars1.githubusercontent.com/u/35767464?s=460&u=3af6a5623f45634808d990e195d71e58860a60dc&v=4'
     
     r = httpx.get(API_URL, stream=True)
     
@@ -48,6 +49,9 @@ def resize(image, new_width, new_height=None):
     return new_image
 
 
+def random_pixel():
+    return random.randint(100, 720)
+
 
 def modify(image):
     ASCII_CHARS = '@%#*+=-:. '
@@ -67,14 +71,14 @@ def convert2text(image, new_width=720):
     return '\n'.join(new_image)
 
 
-def ascii_pic(pic):
+def ascii_pic(pic, pixel):
     image = Image.open(pic)
     target_file = Path('ascii_profile_photo.jpg')
     old_width, old_height, a = get_w_h_a(image)
     if old_width > 720:
         old_width = 720
         old_height = int(a * old_width)
-    txt = convert2text(image)
+    txt = convert2text(image, pixel)
 
     d = ImageDraw.Draw(image)
 
@@ -94,8 +98,9 @@ def initiate_pic_updation(app):
         pic = fetch_new_pic()
     
         app.set_profile_photo(pic)
+        pixel = random_pixel()
         
-        pic = ascii_pic(pic) # https://github.com/RameshAditya/asciify || https://www.tutorialspoint.com/converting-an-image-to-ascii-image-in-python
+        pic = ascii_pic(pic, pixel) # https://github.com/RameshAditya/asciify || https://www.tutorialspoint.com/converting-an-image-to-ascii-image-in-python
         
         time.sleep(10)
         app.send_photo('me', pic)
