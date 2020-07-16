@@ -1,5 +1,6 @@
 import os
 import time
+import traceback
 from pathlib import Path
 from PIL import Image, ImageDraw
 
@@ -9,7 +10,7 @@ from pyrogram import Client, api
 
 
 def fetch_new_pic():
-    API_URL = "https://picsum.photos/720"
+    API_URL = "https://picsum.photos/1280"
     
     r = httpx.get(API_URL, stream=True)
     
@@ -42,7 +43,8 @@ def grayscalify(image):
 
 
 def modify(image, buckets=25):
-    ASCII_CHARS = ['@', '#', 'S', '%', '?', '*', '+', ';', ':', ',', '.']
+    ASCII_CHARS = ['.',',',':',';','+','*','?','%','$','#','@']
+    ASCII_CHARS.reverse()
     initial_pixels = list(image.getdata())
     new_pixels = [ASCII_CHARS[pixel_value//buckets] for pixel_value in initial_pixels]
     return ''.join(new_pixels)
@@ -85,17 +87,20 @@ def ascii_pic(pic):
 
 def initiate_pic_updation(app):
     
-    pic = fetch_new_pic()
+    try:
+        pic = fetch_new_pic()
     
-    app.set_profile_photo(pic)
-    
-    pic = ascii_pic(pic) # https://github.com/RameshAditya/asciify
-    
-    time.sleep(10)
-    
-    app.set_profile_photo(pic)
-    
-    pic.unlink()
+        app.set_profile_photo(pic)
+        
+        pic = ascii_pic(pic) # https://github.com/RameshAditya/asciify
+        
+        time.sleep(10)
+        
+        app.set_profile_photo(pic)
+        
+        pic.unlink()
+    except:
+        traceback.print_exc()
 
 
 
