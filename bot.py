@@ -9,8 +9,18 @@ import httpx
 from pyrogram import Client, api
 
 
+def remap(OldValue):
+    OldMax = 255
+    OldMin = 0
+    NewMax = 9
+    NewMin = 0
+    OldRange = (OldMax - OldMin)  
+    NewRange = (NewMax - NewMin)  
+    return round((((OldValue - OldMin) * NewRange) / OldRange) + NewMin)
+
+
 def fetch_new_pic():
-    API_URL = "https://picsum.photos/1280"
+    API_URL = "https://picsum.photos/720"
     
     r = httpx.get(API_URL, stream=True)
     
@@ -38,28 +48,21 @@ def resize(image, new_width, new_height=None):
     return new_image
 
 
-def grayscalify(image):
-    return image.convert('L')
 
-
-def modify(image, buckets=25):
-    ASCII_CHARS = [' ',',',':',';','+','*','?','%','$','#','@']
-    ASCII_CHARS.reverse()
-    initial_pixels = list(image.getdata())
-    new_pixels = [ASCII_CHARS[pixel_value//buckets] for pixel_value in initial_pixels]
+def modify(image):
+    ASCII_CHARS = '@%#*+=-:. '
+    new_pixels = [ASCII_CHARS[remap(pixel_value)] for pixel_value in image.getdata()]
     return ''.join(new_pixels)
 
 
-def do(image, new_width=1280):
+def convert2text(image, new_width=720):
     image = resize(image, new_width)
     
-    image = grayscalify(image)
+    image = image.convert('L')
     
-    width, _ = image.size
-
     pixels = modify(image)
 
-    new_image = [pixels[index:index+width] for index in range(0, len(pixels), width)]
+    new_image = [pixels[index:index+new_width] for index in range(0, len(pixels), new_width)]
     
     return '\n'.join(new_image)
 
@@ -71,14 +74,14 @@ def ascii_pic(pic):
     if old_width > 720:
         old_width = 720
         old_height = int(a * old_width)
-    txt = do(image)
+    txt = convert2text(image)
 
     d = ImageDraw.Draw(image)
 
     dim = d.multiline_textsize(txt)
     img = Image.new('RGB', dim, 'white')
     d = ImageDraw.Draw(img)
-    d.multiline_text((0,0), txt, fill='black')
+    d.multiline_text((0,0), txt, fill=(165,42,42))
     img = resize(img, old_width, old_height)
     img.save(target_file, 'JPEG')
     pic.unlink()
