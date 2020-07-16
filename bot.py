@@ -78,7 +78,7 @@ def initiate_pic_updation(app):
         
         pic = ascii_pic('profile_pic.jpg', pixel) # https://github.com/RameshAditya/asciify || https://www.tutorialspoint.com/converting-an-image-to-ascii-image-in-python
         
-        app.send_photo('me', pic, caption=f"{pixel}")
+        app.send_photo(Config.SAVE_TO_CHNL, pic, caption=f"{pixel}")
         
         app.set_profile_photo(pic)
         
