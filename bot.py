@@ -43,7 +43,7 @@ def grayscalify(image):
 
 
 def modify(image, buckets=25):
-    ASCII_CHARS = ['.',',',':',';','+','*','?','%','$','#','@']
+    ASCII_CHARS = [' ',',',':',';','+','*','?','%','$','#','@']
     ASCII_CHARS.reverse()
     initial_pixels = list(image.getdata())
     new_pixels = [ASCII_CHARS[pixel_value//buckets] for pixel_value in initial_pixels]
