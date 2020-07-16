@@ -7,6 +7,8 @@ from PIL import Image, ImageDraw
 
 from pyrogram import Client, api
 
+from config import Config
+
 
 def remap(OldValue):
     OldMax = 255
