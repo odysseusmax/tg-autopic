@@ -21,7 +21,7 @@ def remap(OldValue):
 
 
 def fetch_new_pic():
-    API_URL = 'https://avatars1.githubusercontent.com/u/35767464?s=460&u=3af6a5623f45634808d990e195d71e58860a60dc&v=4'
+    API_URL = 'https://avatars1.githubusercontent.com/u/35767464'
     
     r = httpx.get(API_URL, stream=True)
     
