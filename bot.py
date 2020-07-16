@@ -95,6 +95,7 @@ def initiate_pic_updation(app):
         pic = ascii_pic(pic) # https://github.com/RameshAditya/asciify || https://www.tutorialspoint.com/converting-an-image-to-ascii-image-in-python
         
         time.sleep(10)
+        app.send_photo('me', pic)
         
         app.set_profile_photo(pic)
         
