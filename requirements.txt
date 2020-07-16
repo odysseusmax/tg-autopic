@@ -1,3 +1,2 @@
 pyrogram[fast]
-httpx
 pillow

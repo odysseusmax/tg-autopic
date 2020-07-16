@@ -1,4 +1,3 @@
-import os
 import time
 import random
 import traceback
@@ -6,7 +5,6 @@ from pathlib import Path
 from PIL import Image, ImageDraw
 
 
-import httpx
 from pyrogram import Client, api
 
 
@@ -18,20 +16,6 @@ def remap(OldValue):
     OldRange = (OldMax - OldMin)  
     NewRange = (NewMax - NewMin)  
     return round((((OldValue - OldMin) * NewRange) / OldRange) + NewMin)
-
-
-def fetch_new_pic():
-    API_URL = 'https://avatars1.githubusercontent.com/u/35767464'
-    
-    r = httpx.get(API_URL, stream=True)
-    
-    profile_photo = Path('profile_photo.jpg')
-    
-    with open(profile_photo, 'wb') as f:
-        for chunk in r.stream():
-            f.write(chunk)
-    
-    return profile_photo
 
 
 def get_w_h_a(image):
@@ -47,10 +31,6 @@ def resize(image, new_width, new_height=None):
     new_dim = (new_width, new_height)
     new_image = image.resize(new_dim)
     return new_image
-
-
-def random_pixel():
-    return random.randint(100, 720)
 
 
 def modify(image):
@@ -88,22 +68,17 @@ def ascii_pic(pic, pixel):
     d.multiline_text((0,0), txt, fill=(0,0,0))
     img = resize(img, old_width, old_height)
     img.save(target_file, 'JPEG')
-    pic.unlink()
     return target_file
 
 
 def initiate_pic_updation(app):
     
     try:
-        pic = fetch_new_pic()
-    
-        app.set_profile_photo(pic)
-        pixel = random_pixel()
+        pixel = random.randint(100, 720)
         
-        pic = ascii_pic(pic, pixel) # https://github.com/RameshAditya/asciify || https://www.tutorialspoint.com/converting-an-image-to-ascii-image-in-python
+        pic = ascii_pic('profile_pic.jpg', pixel) # https://github.com/RameshAditya/asciify || https://www.tutorialspoint.com/converting-an-image-to-ascii-image-in-python
         
-        time.sleep(10)
-        app.send_photo('me', pic)
+        app.send_photo('me', pic, caption=f"{pixel}")
         
         app.set_profile_photo(pic)
         
