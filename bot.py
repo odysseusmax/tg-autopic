@@ -81,7 +81,7 @@ def ascii_pic(pic):
     dim = d.multiline_textsize(txt)
     img = Image.new('RGB', dim, 'white')
     d = ImageDraw.Draw(img)
-    d.multiline_text((0,0), txt, fill=(165,42,42))
+    d.multiline_text((0,0), txt, fill=(0,0,0))
     img = resize(img, old_width, old_height)
     img.save(target_file, 'JPEG')
     pic.unlink()
